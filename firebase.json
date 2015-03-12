@@ -1,0 +1,5 @@
+{
+  "firebase": "ckstaging",
+  "public": "www",
+  "rules": "rules.json"
+}
