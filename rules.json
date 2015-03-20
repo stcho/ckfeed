@@ -36,8 +36,8 @@
     "sparks": {
       // A global list of sparks (the "firehose").
       "$sparkid": {
-        // Modifying an existing spark is not allowed.
-        ".write": "!data.exists()",
+        // Editing an existing spark is not allowed but Deleting is.
+        ".write": "!data.exists() || (!newData.exists() && data.child('author') === auth.id)",
         // Every spark should have an author and a body.
         ".validate": "newData.hasChildren(['author', 'content'])",
         // A user can attribute a spark only to themselves.

@@ -270,7 +270,8 @@ FirefeedUI.prototype.renderTimeline = function(info) {
   $("#header").html(Mustache.to_html($("#tmpl-page-header").html(), {user: self._loggedIn}));
 
   // Render placeholders for location / bio if not filled in.
-  info.location = info.location.substr(0, 80) || "Your Location...";
+  info.location = info.location.substr(0, 80) || "Your University...";
+  // info.major = info.major.substr(0, 80) || "Your Major...";
   info.bio = info.bio.substr(0, 255) || "Your Bio...";
 
   // Render body.

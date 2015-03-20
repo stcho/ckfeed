@@ -21,12 +21,16 @@
       </header>
 
       
-      
+      <!-- NAVBAR Start -->
       <script id="tmpl-page-header" type="text/html">
         <div class="wrapper cf">
           <h1 class="logo"><a href="#" id="top-logo">CourseKarma</a></h1>
           <nav>
             <!-- <a id="search-button" href="#">Search</a> -->
+            <a id="courses-link" href="courses.html">Courses</a>
+            &nbsp;|&nbsp;
+            <a id="professors-link" href="professors.html">Professors</a>
+            
             {{#user}}
             &nbsp;|&nbsp;
             <a id="logout-button" href="#">Logout</a>
@@ -34,6 +38,7 @@
           </nav>
         </div>
       </script>
+      <!-- NAVBAR End -->
 
       <div id="body">
       </div>
@@ -48,6 +53,7 @@
         </div>
       </script>
 
+      <!-- PRELOGIN PAGE Start -->
       <script id="tmpl-index-content" type="text/html">
         <div class="threefifth center aligncenter">
           <!-- <img src="img/logo.png" /> -->
@@ -72,9 +78,10 @@
           <hr/>
         </div>
       </script>
+      <!-- PRELOGIN PAGE End -->
 
 
-      <!-- PROFILE PAGE -->
+      <!-- PROFILE PAGE Start-->
       <script id="tmpl-timeline-content" type="text/html">
         <div class="third">
           <div class="media">
@@ -197,12 +204,25 @@
         <h2 class="pushv">{{fullName}}</h2>
         <p class="big-copy pushv">{{location}}</p>
         <p class="big-copy end">{{bio}}</p>
+        <div>Upvotes: 0 Downvotes: 0 </div>
+        <p>Courses: CSE430, CSE120, CSE355, MAT270 </p>
+
+
         <div class="pushv4">
           <a href="#" id="followBtn-{{id}}" class="btn default pushv4 btn-follow" data-id="{{id}}">Follow</a>
         </div>
       </script>
 
+      <!-- Posts On The Newsfeed Start -->
       <script id="tmpl-spark" type="text/html">
+
+      $('downvote').click(function () {
+        alert("downvote");
+      });
+      $('upvote').click(function () {
+        alert("upvote");
+      });
+
         <li id="spark-{{sparkId}}">
           <div class="media">
             <div class="img avatar clean">
@@ -218,10 +238,27 @@
               <p class="meta end">
                 <a class="spark-link" href="?spark={{sparkId}}">{{friendlyTimestamp}}</a>
               </p>
+              <span class="downvote" style="
+                float: right;
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: 25px 25px 0 25px;
+                border-color: #ffe5a3 transparent transparent transparent;">
+              </span>
+              <span class="upvote" style="
+                float: right;
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: 0 25px 25px 25px;
+                border-color: transparent transparent #ffe5a3 transparent;">
+              </span>
             </div>
           </div>
         </li>
       </script>
+      <!-- Posts On The Newsfeed End -->
 
       <script id="tmpl-suggested-user" type="text/html">
         <div class="media pushv4" id="followBox-{{id}}">
@@ -243,9 +280,9 @@
 
     <footer id="footer">
       <ul>
-        <li id="about-link"><a href="about.html">About</a></li>
+        <!-- <li id="about-link"><a href="about.html">About</a></li> -->
         <!-- <li>Follow <a href="//twitter.com/firebase" target="_blank">@Firebase</a></li> -->
-        <li>CourseKarma Beta v0.0
+        <li>CourseKarma Beta v0.1
       </ul>
     </footer>
 
