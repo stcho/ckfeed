@@ -8,7 +8,7 @@ function FirefeedUI() {
   this._limit = 255;
   this._loggedIn = false;
   this._spinner = new Spinner();
-  this._firefeed = new Firefeed("https://firefeed.firebaseio.com/");
+  this._firefeed = new Firefeed("https://ckfeed.firebaseio.com/");
   this._unload = null;
 
   // Setup page navigation.
@@ -70,6 +70,7 @@ FirefeedUI.prototype._pageController = function(url) {
       }
       break;
     case "spark":
+
       if (!value[1]) {
         this._unload = this.render404();
       } else {
@@ -99,6 +100,7 @@ FirefeedUI.prototype._postHandler = function(e) {
   e.preventDefault();
   sparkButton.replaceWith(message);
   self._spinner.spin(containerEl.get(0));
+  console.log(sparkText.val());
   self._firefeed.post(sparkText.val(), function(err, done) {
     if (!err) {
       message.html("Posted!").css("background", "#008000");
@@ -266,13 +268,29 @@ FirefeedUI.prototype.renderSearch = function() {
 };
 
 FirefeedUI.prototype.renderTimeline = function(info) {
+  // console.log("values:", value[1]);
+  // console.log("info:", info); --> Object
   var self = this;
   $("#header").html(Mustache.to_html($("#tmpl-page-header").html(), {user: self._loggedIn}));
 
-  // Render placeholders for location / bio if not filled in.
-  info.location = info.location.substr(0, 80) || "Your University...";
-  // info.major = info.major.substr(0, 80) || "Your Major...";
-  info.bio = info.bio.substr(0, 255) || "Your Bio...";
+  // Render user's location / bio on the timeline page 
+  var stringForLocationBioQuery = "https://ckfeed.firebaseio.com/people/" + info.uid; 
+  new Firebase(stringForLocationBioQuery).once('value', 
+    function _loadData(snap) {
+      // info.location = snap.val().location || "Your University...";
+      // info.major = info.maj`or.substr(0, 80) || "Your Major...";
+      // info.bio = snap.val().bio || "Your Bio...";
+  
+      if (snap.val().location === undefined) {
+        document.getElementById("inputLocation").innerHTML = "Your University... Press Enter To Save";  
+      }
+      if (snap.val().bio === undefined) {
+        document.getElementById("inputBio").innerHTML = "Your Bio... Press Enter To Save";  
+      }
+      document.getElementById("inputLocation").innerHTML = snap.val().location;
+      document.getElementById("inputBio").innerHTML = snap.val().bio;
+    }
+  );
 
   // Render body.
   var content = Mustache.to_html($("#tmpl-timeline-content").html(), info);
@@ -411,7 +429,7 @@ FirefeedUI.prototype.renderProfile = function(uid) {
 FirefeedUI.prototype.renderSpark = function(id) {
   var self = this;
   $("#header").html(Mustache.to_html($("#tmpl-page-header").html(), {user: self._loggedIn}));
-
+  
   // Render spark page body.
   self._firefeed.getSpark(id, function(spark) {
     if (spark !== null && spark.author) {

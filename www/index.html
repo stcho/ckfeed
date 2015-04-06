@@ -113,7 +113,7 @@
           </div>
         </div>
         <div class="twothird">
-          <ul id="spark-timeline-list" class="item-list">
+          <ul id="spark-timeline-list" class="item-list"> 
           </ul>
         </div>
       </script>
@@ -204,7 +204,9 @@
         <h2 class="pushv">{{fullName}}</h2>
         <p class="big-copy pushv">{{location}}</p>
         <p class="big-copy end">{{bio}}</p>
+        <br>
         <div>Upvotes: 0 Downvotes: 0 </div>
+        <p></p>
         <p>Courses: CSE430, CSE120, CSE355, MAT270 </p>
 
 
@@ -215,14 +217,6 @@
 
       <!-- Posts On The Newsfeed Start -->
       <script id="tmpl-spark" type="text/html">
-
-      $('downvote').click(function () {
-        alert("downvote");
-      });
-      $('upvote').click(function () {
-        alert("upvote");
-      });
-
         <li id="spark-{{sparkId}}">
           <div class="media">
             <div class="img avatar clean">

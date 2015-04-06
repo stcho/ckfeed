@@ -11,8 +11,10 @@
  *                                   (Useful for testing only)
  * @return   {Firefeed}
  */
+
 function Firefeed(baseURL, newContext) {
   var self = this;
+  var mainSelf = this; //ADDBYME: SO WE CAN GET LOCATION AND BIO
   this._name = null;
   this._facebookId = null;
   this._firebase = null;
@@ -30,13 +32,18 @@ function Firefeed(baseURL, newContext) {
   if (!baseURL || typeof baseURL != "string") {
     throw new Error("Invalid baseURL provided");
   }
+  //ADDEDBYME: this right here instantiates the firebase ref with the URL I gave in firefeed-ui.js
   this._firebase = new Firebase(
     baseURL, newContext || false ? new Firebase.Context() : null
   );
 
   this._authHandlers = [];
-  this._firebase.onAuth(self._onLoginStateChange.bind(self));
+  // console.log("self on top of firefeed:", self); --> Firefeed {...} before _user is added
+
+  this._firebase.onAuth(self._onLoginStateChange.bind(self)); //ADDEDBYME: the first "self" is calling this of the Firefeed up there on the top and the second "self" is the self in _onLoginStateChange
 }
+
+//ADDBYME: creating all of the methods for Firefeed object
 Firefeed.prototype = {
   _validateCallback: function(cb, notInit) {
     if (!cb || typeof cb != "function") {
@@ -99,7 +106,7 @@ Firefeed.prototype = {
     });
   },
   _onLoginStateChange: function(user) {
-
+    // console.log("_onLoginStateChange user:", user);  --> Object with location and such not filled in yet
     var self = this;
     if (user) {
       // The user is successfully logged in.
@@ -177,7 +184,8 @@ Firefeed.prototype.onLogin = function(user) {
   user.name = user.facebook.displayName;
   user.location = '';
   user.bio = '';
-  user.pic = this._getPicURL(user.id, false);
+
+  user.pic = this._getPicURL(user.id, false); 
 
   // Populate search index
   var firstNameKey = [user['first_name'], user['last_name'], user['id']].join('|').toLowerCase();
@@ -186,10 +194,12 @@ Firefeed.prototype.onLogin = function(user) {
   this._firebase.child('search/lastName').child(lastNameKey).set(user['id']);
 
   this._mainUser = self._firebase.child("users").child(this._uid);
+  // console.log("MAINUSER:", _mainUser);
   this._fullName = user.name;
   this._name = user.first_name;
 
   var peopleRef = self._firebase.child("people").child(this._uid);
+  // THE PROBMLEM IS peopleRef.once IS GETTING SKIPPED
   peopleRef.once("value", function(peopleSnap) {
     var info = {};
     var val = peopleSnap.val();
@@ -257,6 +267,7 @@ Firefeed.prototype.getUserInfo = function(user, onComplete,
 
   var ref = self._firebase.child("people").child(user);
   var handler = ref.on("value", function(snap) {
+    
     var val = snap.val();
     val.pic = self._getPicURL(snap.name(), true);
     val.bio = val.bio.substr(0, 255);

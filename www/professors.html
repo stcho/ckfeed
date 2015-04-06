@@ -10,7 +10,9 @@
     <meta name="description" content="Collaborate together">
     <!-- <link href="img/favicon.png" rel="shortcut icon" /> -->
     <!-- <link href="img/apple-touch-icon.png" rel="apple-touch-icon" /> -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/global.css" rel="stylesheet" />
+    <link href="css/card.css" rel="stylesheet">
     <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
   </head>
 
@@ -54,6 +56,65 @@
       </script>
 
       <div style="text-align: center"><a href="#" class="btn default pushv4">Add New Professors</a></div>
+
+      <div class="container" id="wrapper">
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 img-thumbs" ng-animate="'animate'">
+          <div style="width: 225px; " class="card-background" ng-click="instantiateEvent(event)" data-toggle="modal" data-target="#createEventModal">
+            <img src="img/asu_image.jpg" class="img-responsive card-img">
+            <img style="margin:1px;" src="http://mayron.net/wordpress/wp-content/uploads/2012/10/profile_2012_128.jpg" width="250" height="250">
+            <div class="card-header text-center">Liam Mayron</div>
+            <div class="card-description">Teaches Capstone, CSE230 and others</div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 img-thumbs" ng-animate="'animate'">
+          <div style="width: 225px;" class="card-background" ng-click="instantiateEvent(event)" data-toggle="modal" data-target="#createEventModal">
+            <img src="img/asu_image.jpg" class="img-responsive card-img">
+            <img style="margin:1px; width: 225px; height: 225px;" src="https://cidse.engineering.asu.edu/wp-content/themes/striking_r/cache/images/8009_Ahn_Gail-Joon_4376b3-136x150.jpg">
+            <div class="card-header text-center">Faye Navabi</div>
+            <div class="card-description">Teaches CSE120, CSE210, CSE230</div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 img-thumbs" ng-animate="'animate'">
+          <div style="width: 225px;" class="card-background" ng-click="instantiateEvent(event)" data-toggle="modal" data-target="#createEventModal">
+            <img src="img/asu_image.jpg" class="img-responsive card-img">
+            <img style="margin:1px; width: 225px; height: 225px;" src="https://cidse.engineering.asu.edu/wp-content/themes/striking_r/cache/images/5315_featured-Atkinson-Robert-136x150.jpg" class="img-responsive card-img">
+            <div class="card-header text-center">Faye Navabi</div>
+            <div class="card-description">Teaches CSE120, CSE210, CSE230</div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 img-thumbs" ng-animate="'animate'">
+          <div style="width: 225px;" class="card-background" ng-click="instantiateEvent(event)" data-toggle="modal" data-target="#createEventModal">
+            <img src="img/asu_image.jpg" class="img-responsive card-img">
+            <img style="margin:1px; width: 225px; height: 225px;" src="https://inventorsworkshop.wikispaces.com/file/view/AI_professor.jpg/277105418/163x163/AI_professor.jpg">
+            <div class="card-header text-center">Faye Navabi</div>
+            <div class="card-description">Teaches CSE120, CSE210, CSE230</div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 img-thumbs" ng-animate="'animate'">
+          <div style="width: 225px;" class="card-background" ng-click="instantiateEvent(event)" data-toggle="modal" data-target="#createEventModal">
+            <img src="img/asu_image.jpg" class="img-responsive card-img">
+            <img style="margin:1px; width: 225px; height: 225px;" src="http://more.engineering.asu.edu/sensip/wp-content/uploads/2012/08/XUE-CSE.jpg">
+            <div class="card-header text-center">Faye Navabi</div>
+            <div class="card-description">Teaches CSE120, CSE210, CSE230</div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 img-thumbs" ng-animate="'animate'">
+          <div style="width: 225px;" class="card-background" ng-click="instantiateEvent(event)" data-toggle="modal" data-target="#createEventModal">
+            <img src="img/asu_image.jpg" class="img-responsive card-img">
+            <img style="margin:1px; width: 225px; height: 225px;" src="https://lh3.googleusercontent.com/-GjuiKWQE5Gk/AAAAAAAAAAI/AAAAAAAAAAA/FF4zrkTE6do/photo.jpg">
+            <div class="card-header text-center">Faye Navabi</div>
+            <div class="card-description">Teaches CSE120, CSE210, CSE230</div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 img-thumbs" ng-animate="'animate'">
+          <div style="width: 225px;" class="card-background" ng-click="instantiateEvent(event)" data-toggle="modal" data-target="#createEventModal">
+            <img src="img/asu_image.jpg" class="img-responsive card-img">
+            <img style="margin:1px; width: 225px; height: 225px;" src="http://ratemyprofessors.mtvnimages.com/prof/Reiley_Jeyapaul_1835736.jpeg">
+            <div class="card-header text-center">Faye Navabi</div>
+            <div class="card-description">Teaches CSE120, CSE210, CSE230</div>
+          </div>
+        </div>
+      </div>
       
     </div><!-- #wrapper END -->
 

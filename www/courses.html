@@ -10,7 +10,9 @@
     <meta name="description" content="Collaborate together">
     <!-- <link href="img/favicon.png" rel="shortcut icon" /> -->
     <!-- <link href="img/apple-touch-icon.png" rel="apple-touch-icon" /> -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/global.css" rel="stylesheet" />
+    <link href="css/card.css" rel="stylesheet">
     <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
   </head>
 
@@ -43,6 +45,65 @@
       <div id="body">
       </div>
 
+      <div class="container" id="wrapper">
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 img-thumbs" ng-animate="'animate'">
+          <div style="width: 225px; background-color:#ffd97e;" class="card-background" ng-click="instantiateEvent(event)" data-toggle="modal" data-target="#createEventModal">
+            <img src="img/asu_image.jpg" class="img-responsive card-img">
+            <div class="card-header text-center">Add New Courses</div>
+            <div class="card-description">Click here to add new Courses</div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 img-thumbs" ng-animate="'animate'">
+          <div style="width: 225px; " class="card-background" ng-click="instantiateEvent(event)" data-toggle="modal" data-target="#createEventModal">
+            <img src="img/asu_image.jpg" class="img-responsive card-img">
+            <div class="card-header text-center">CSE430</div>
+            <div class="card-description">Course CSE430</div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 img-thumbs" ng-animate="'animate'">
+          <div style="width: 225px;" class="card-background" ng-click="instantiateEvent(event)" data-toggle="modal" data-target="#createEventModal">
+            <img src="img/asu_image.jpg" class="img-responsive card-img">
+            <div class="card-header text-center">CSE120</div>
+            <div class="card-description">Course CSE120</div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 img-thumbs" ng-animate="'animate'">
+          <div style="width: 225px;" class="card-background" ng-click="instantiateEvent(event)" data-toggle="modal" data-target="#createEventModal">
+            <img src="img/asu_image.jpg" class="img-responsive card-img">
+            <div class="card-header text-center">CSE355</div>
+            <div class="card-description">Course CSE355</div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 img-thumbs" ng-animate="'animate'">
+          <div style="width: 225px;" class="card-background" ng-click="instantiateEvent(event)" data-toggle="modal" data-target="#createEventModal">
+            <img src="img/asu_image.jpg" class="img-responsive card-img">
+            <div class="card-header text-center">MAT270</div>
+            <div class="card-description">Course MAT270</div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 img-thumbs" ng-animate="'animate'">
+          <div style="width: 225px; margin: 0px;" class="card-background" ng-click="instantiateEvent(event)" data-toggle="modal" data-target="#createEventModal">
+            <img src="img/asu_image.jpg" class="img-responsive card-img">
+            <div class="card-header text-center">Test1</div>
+            <div class="card-description">Test1</div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 img-thumbs" ng-animate="'animate'">
+          <div style="width: 225px; margin: 0px;" class="card-background" ng-click="instantiateEvent(event)" data-toggle="modal" data-target="#createEventModal">
+            <img src="img/asu_image.jpg" class="img-responsive card-img">
+            <div class="card-header text-center">Test2</div>
+            <div class="card-description">Test2</div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 img-thumbs" ng-animate="'animate'">
+          <div style="width: 225px; margin: 0px;" class="card-background" ng-click="instantiateEvent(event)" data-toggle="modal" data-target="#createEventModal">
+            <img src="img/asu_image.jpg" class="img-responsive card-img">
+            <div class="card-header text-center">Test3</div>
+            <div class="card-description">Test3</div>
+          </div>
+        </div>
+      </div>
+
       <script id="tmpl-content" type="text/html">
         <div id="content" class="{{classes}}">
           <div class="wrapper">
@@ -53,7 +114,6 @@
         </div>
       </script>
 
-      <div style="text-align: center"><a href="#" class="btn default pushv4">Add New Courses</a></div>
       
     </div><!-- #wrapper END -->
 
