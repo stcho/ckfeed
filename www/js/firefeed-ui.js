@@ -139,10 +139,12 @@ FirefeedUI.prototype._handleNewSpark = function(listId, limit, func) {
       sparkEl.on("click", 'a.up-vote', function(e){e.preventDefault(); 
         var id = $(this).data('id');
         alert("UP" + id);
+        self._firefeed.setVote(spark.sparkId, spark.author, 1)
       });
       sparkEl.on("click", 'a.down-vote', function(e){e.preventDefault(); 
         var id = $(this).data('id');
         alert("DOWN" + id);
+        self._firefeed.setVote(spark.sparkId, spark.author, -1)
       });
 
       $("#" + listId).prepend(sparkEl);

@@ -72,6 +72,11 @@
             ".write": "auth != null && (root.child('people/' +auth.uid + '/lastName').val() + '|' + root.child('people/' +auth.uid + '/firstName').val() + '|' +auth.uid) == $searchKey && newData.val() ==auth.uid"
           }
         }
+      },
+      "spark-votes": {
+        ".read": true,
+        ".write": true,
+        ".validate": "newData.isString()"
       }
     }
   }
