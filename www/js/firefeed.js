@@ -494,34 +494,30 @@ Firefeed.prototype.post = function(content, onComplete) {
 
 Firefeed.prototype.setVote = function(sparkId, userId, newvote) {
   var self = this;
-  // vote = Vote.get_by_key_name(key_names = user.email(), parent = quote)
-  // if vote is None:
-  //     vote = Vote(key_name = user.email(), parent = quote)
-  // if vote.vote == newvote:
-  //     return
-  // quote.votesum = quote.votesum - vote.vote + newvote
-  // vote.vote = newvote
-  // var vote = 
-  console.log("self:", self);
-  console.log("sparkID:", sparkId);
-  console.log("userID:", userId);
-  console.log("newvote:", newvote);
-
+  // console.log("self:", self);console.log("sparkID:", sparkId);console.log("userID:", userId);console.log("newvote:", newvote);
   // Query to see if spark-vote already exits with this specific sparkId and userId ("sparkid" + "-" + "userId")
   // if not create new spark-vote 
-  var newVoteId = sparkId + "-" + userId;
-  self._firebase.child("spark-vote").child(newVoteId).once('value', function(snap){
-    if (snap.val() === null) {
-      console.log("In null");
-      self._firebase.child("spark-votes/"+newVoteId).set({
-        vote: newvote //vote: The value of 1 for upvote, -1 for downvote.
-      });
-      console.log("New vote has been created");
+  // var newVoteId = sparkId + "-" + userId;
+  // self._firebase.child("spark-votes").child(newVoteId).once('value', function(snap){
+    // if (snap.val() === null) {
+    //   self._firebase.child("spark-votes/"+newVoteId).set({
+    //     vote: newvote //vote: The value of 1 for upvote, -1 for downvote.
+    //   });
+    // } else {
+    //   console.log("gotem");
+    // }
+  // });
+
+  self._firebase.child("sparks").child(sparkId).once('value', function(snap){
+    if (snap.val().voteSum === undefined) {
+      self._firebase.child("sparks").child(sparkId+"/voteSum").set(newvote);
+      console.log("Inside undefined:", sparkId);
+    } else {
+      var voteSum = snap.val().voteSum + newvote;
+      self._firebase.child("sparks").child(sparkId+"/voteSum").set(voteSum);
+      console.log("Inside Already Created:", sparkId);
     }
   });
-
-  // var voteRef = self._firebase.child("vote").child(this._uid);
-  // peopleRef.child(field).set(value);
 };
 
 

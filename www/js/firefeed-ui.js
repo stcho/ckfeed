@@ -134,19 +134,30 @@ FirefeedUI.prototype._handleNewSpark = function(listId, limit, func) {
       spark.friendlyTimestamp = self._formatDate(
         new Date(spark.timestamp || 0)
       );
+      
       var sparkEl = $(Mustache.to_html($("#tmpl-spark").html(), spark)).hide();
 
       sparkEl.on("click", 'a.up-vote', function(e){e.preventDefault(); 
         var id = $(this).data('id');
         alert("UP" + id);
-        self._firefeed.setVote(spark.sparkId, spark.author, 1)
+        self._firefeed.setVote(spark.sparkId, spark.author, 1);
+        //refresh timeline
+        self._handleNewSpark(
+          "spark-timeline-list", 10,
+          self._firefeed.onNewSpark.bind(self._firefeed)
+        );
       });
       sparkEl.on("click", 'a.down-vote', function(e){e.preventDefault(); 
         var id = $(this).data('id');
         alert("DOWN" + id);
-        self._firefeed.setVote(spark.sparkId, spark.author, -1)
+        self._firefeed.setVote(spark.sparkId, spark.author, -1);
+        //refresh timeline
+        self._handleNewSpark(
+          "spark-timeline-list", 10,
+          self._firefeed.onNewSpark.bind(self._firefeed)
+        );
       });
-
+      
       $("#" + listId).prepend(sparkEl);
       sparkEl.slideDown("slow");
     }, function(sparkId) {
