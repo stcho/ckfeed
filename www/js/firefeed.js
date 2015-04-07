@@ -431,11 +431,15 @@ Firefeed.prototype.post = function(content, onComplete) {
   // First, we add the spark to the global sparks list. push() ensures that
   // we get a unique ID for the spark that is chronologically ordered.
   var sparkRef = self._firebase.child("sparks").push();
+  console.log("self:", self);
   var sparkRefId = sparkRef.name();
+  console.log("sparkRef:", sparkRef);
+  console.log("sparkRefId:", sparkRefId);
   var spark = {
     author: self._uid, // uid for v2 security rules
     by: self._fullName,
     content: content,
+    voteSum: 0, //ADDEDBYME: total votes defaulted to 0
     timestamp: new Date().getTime()
   };
 
@@ -455,6 +459,7 @@ Firefeed.prototype.post = function(content, onComplete) {
       }
 
       // Then, we add the spark ID to the users own feed.
+      console.log("self in saprkRef.set():", self);
       self._mainUser.child("feed").child(sparkRefId).set(true);
 
       // We also add ourself (with priority) to a list of users with recent
@@ -486,6 +491,10 @@ Firefeed.prototype.post = function(content, onComplete) {
     });
   });
 };
+
+// Firefeed.prototype.setVote = function(userID, sparkID, ) {
+//   var self = this;
+// };
 
 /**
  * Get a set of "suggested" users to follow.  For now this is just a list of 5

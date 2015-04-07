@@ -216,7 +216,7 @@
       </script>
 
       <!-- Posts On The Newsfeed Start -->
-      <script id="tmpl-spark" type="text/html">
+    <script id="tmpl-spark" type="text/html">
         <li id="spark-{{sparkId}}">
           <div class="media">
             <div class="img avatar clean">
@@ -228,28 +228,34 @@
               <p class="title end">
                 <a class="profile-link" href="/?profile={{author}}">{{by}}</a>
               </p>
-              <p class="main-copy pushv">{{content}}</p>
+              <a class="spark-link" href="?spark={{sparkId}}">
+                <p class="main-copy pushv">{{content}}</p>
+              </a>
               <p class="meta end">
                 <a class="spark-link" href="?spark={{sparkId}}">{{friendlyTimestamp}}</a>
               </p>
-              <span class="downvote" style="
+              <span class="vote-sum" style="
                 float: right;
-                margin-top: -5%;
-                width: 0;
-                height: 0;
-                border-style: solid;
-                border-width: 25px 25px 0 25px;
-                border-color: #ffe5a3 transparent transparent transparent;">
-              </span>
-              <span class="upvote" style="
+                margin-top: -10%;
+                font-size: 30px;
+                margin-right: 65px;"
+                >{{voteSum}}</span>
+              <a class="up-vote" data-id="{{sparkId}}" href="/up" style="
                 float: right;
-                margin-top: -12%;
                 width: 0;
                 height: 0;
                 border-style: solid;
                 border-width: 0 25px 25px 25px;
-                border-color: transparent transparent #ffe5a3 transparent;">
-              </span>
+                border-color: transparent transparent #ffe5a3 transparent;"
+                ></a>
+              <a class="down-vote" data-id="{{sparkId}}" href="/down" style="
+                float: right;
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: 25px 25px 0 25px;
+                border-color: #ffe5a3 transparent transparent transparent;"
+                ></a>
             </div>
           </div>
         </li>

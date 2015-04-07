@@ -119,16 +119,32 @@ FirefeedUI.prototype._postHandler = function(e) {
 };
 
 FirefeedUI.prototype._handleNewSpark = function(listId, limit, func) {
+
   var self = this;
   func(
     limit,
     function(sparkId, spark) {
       spark.content = spark.content.substring(0, self._limit);
       spark.sparkId = sparkId;
+      if(spark.voteSum === undefined) {
+        spark.voteSum = 0;
+      } else {
+        spark.voteSum = spark.voteSum;
+      }
       spark.friendlyTimestamp = self._formatDate(
         new Date(spark.timestamp || 0)
       );
       var sparkEl = $(Mustache.to_html($("#tmpl-spark").html(), spark)).hide();
+
+      sparkEl.on("click", 'a.up-vote', function(e){e.preventDefault(); 
+        var id = $(this).data('id');
+        alert("UP" + id);
+      });
+      sparkEl.on("click", 'a.down-vote', function(e){e.preventDefault(); 
+        var id = $(this).data('id');
+        alert("DOWN" + id);
+      });
+
       $("#" + listId).prepend(sparkEl);
       sparkEl.slideDown("slow");
     }, function(sparkId) {
@@ -160,6 +176,15 @@ FirefeedUI.prototype._editableHandler = function(id, value) {
   }
   return true;
 };
+
+// FirefeedUI.prototype._voteHandler = function(id, type) {
+//   if (id == "upvote-button") {
+//     alert("UPVOTE");
+//   }
+//   if (id == "downvote-button") {
+//     alert("DownVOTE");
+//   }
+// }
 
 FirefeedUI.prototype.onLoginStateChange = function(info) {
   this._spinner.stop();
@@ -329,6 +354,14 @@ FirefeedUI.prototype.renderTimeline = function(info) {
     self._firefeed.onNewSpark.bind(self._firefeed)
   );
 
+// alert("MEOW");
+      // document.getElementById("upvote-JcFpwUw3HjRQC4ggeP6").addEventListener("click", function(){
+      //     alert("UP!");
+      // });
+      // document.getElementById("downvote-JcFpwUw3HjRQC4ggeP6").addEventListener("click", function(){
+      //     alert("DOWN!");
+      // });
+
   // Get some "suggested" users.
   self._firefeed.getSuggestedUsers(function(userid, info) {
     info.id = userid;
@@ -352,10 +385,12 @@ FirefeedUI.prototype.renderTimeline = function(info) {
 
   // Make profile fields editable.
   $(".editable").editable(function(value, settings) {
+    console.log("value in editable:", value);
     self._editableHandler($(this).attr("id"), value);
     return value;
   });
   return function() { self._firefeed.unload(); };
+  
 };
 
 FirefeedUI.prototype.renderProfile = function(uid) {
