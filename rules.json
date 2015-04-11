@@ -74,9 +74,12 @@
         }
       },
       "spark-votes": {
-        ".read": true,
-        ".write": true,
-        ".validate": "newData.isString()"
+           "$vote": {
+              ".read": "$vote === auth.id",
+              ".write": "$vote === auth.id", 
+              ".validate": "newData.val() === 1 || newData.val() === null",
+              ".validate": "newData.val() === -1 || newData.val() === null"
+           }
       }
     }
   }

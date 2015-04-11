@@ -494,7 +494,7 @@ Firefeed.prototype.post = function(content, onComplete) {
 
 Firefeed.prototype.setVote = function(sparkId, userId, newvote) {
   var self = this;
-  // console.log("self:", self);console.log("sparkID:", sparkId);console.log("userID:", userId);console.log("newvote:", newvote);
+  console.log("self:", self);console.log("sparkID:", sparkId);console.log("userID:", userId);console.log("newvote:", newvote);
   // Query to see if spark-vote already exits with this specific sparkId and userId ("sparkid" + "-" + "userId")
   // if not create new spark-vote 
   // var newVoteId = sparkId + "-" + userId;
@@ -507,15 +507,24 @@ Firefeed.prototype.setVote = function(sparkId, userId, newvote) {
     //   console.log("gotem");
     // }
   // });
+//find voteSum
 
   self._firebase.child("sparks").child(sparkId).once('value', function(snap){
     if (snap.val().voteSum === undefined) {
       self._firebase.child("sparks").child(sparkId+"/voteSum").set(newvote);
-      console.log("Inside undefined:", sparkId);
+      self._firebase.child("people").child(userId+"/reputation").set(newvote);
     } else {
       var voteSum = snap.val().voteSum + newvote;
       self._firebase.child("sparks").child(sparkId+"/voteSum").set(voteSum);
-      console.log("Inside Already Created:", sparkId);
+
+      self._firebase.child("people").child(userId).once('value', function(pSnap){
+        if (pSnap.val().reputation === undefined) {
+          self._firebase.child("people").child(userId+"/reputation").set(newvote);
+        } else {
+          var reputation = pSnap.val().reputation + newvote;
+          self._firebase.child("people").child(userId+"/reputation").set(reputation);
+        }
+      }); 
     }
   });
 };

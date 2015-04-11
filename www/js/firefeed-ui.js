@@ -35,6 +35,14 @@ FirefeedUI.prototype._setupHandlers = function() {
     e.preventDefault();
     self._go($(this).attr("href"));
   });
+  $(document).on("click", "a.spark-link", function(e) {
+    e.preventDefault();
+    self._go($(this).attr("href"));
+  });
+  $(document).on("click", "a.course-link", function(e) {
+    e.preventDefault();
+    self._go($(this).attr("href"));
+  });
   $(document).on("click", "#search-button", function(e) {
     e.preventDefault();
     self._go("/?search");
@@ -139,22 +147,32 @@ FirefeedUI.prototype._handleNewSpark = function(listId, limit, func) {
 
       sparkEl.on("click", 'a.up-vote', function(e){e.preventDefault(); 
         var id = $(this).data('id');
-        alert("UP" + id);
         self._firefeed.setVote(spark.sparkId, spark.author, 1);
-        //refresh timeline
+        //refresh timeline *probably can create a new handlenewspark that will remove the excess ones*
+        $("#spark-timeline-list").empty(sparkEl);
         self._handleNewSpark(
           "spark-timeline-list", 10,
           self._firefeed.onNewSpark.bind(self._firefeed)
         );
+        // $("#spark-profile-list").empty(sparkEl);
+        self._handleNewSpark(
+          "spark-profile-list", 5,
+          self._firefeed.onNewSparkFor.bind(self._firefeed, uid)
+        );
       });
       sparkEl.on("click", 'a.down-vote', function(e){e.preventDefault(); 
         var id = $(this).data('id');
-        alert("DOWN" + id);
         self._firefeed.setVote(spark.sparkId, spark.author, -1);
         //refresh timeline
+        $("#spark-timeline-list").empty(sparkEl);
         self._handleNewSpark(
           "spark-timeline-list", 10,
           self._firefeed.onNewSpark.bind(self._firefeed)
+        );
+        // $("#spark-profile-list").empty(sparkEl);
+        self._handleNewSpark(
+          "spark-profile-list", 5,
+          self._firefeed.onNewSparkFor.bind(self._firefeed, uid)
         );
       });
       
@@ -367,14 +385,6 @@ FirefeedUI.prototype.renderTimeline = function(info) {
     self._firefeed.onNewSpark.bind(self._firefeed)
   );
 
-// alert("MEOW");
-      // document.getElementById("upvote-JcFpwUw3HjRQC4ggeP6").addEventListener("click", function(){
-      //     alert("UP!");
-      // });
-      // document.getElementById("downvote-JcFpwUw3HjRQC4ggeP6").addEventListener("click", function(){
-      //     alert("DOWN!");
-      // });
-
   // Get some "suggested" users.
   self._firefeed.getSuggestedUsers(function(userid, info) {
     info.id = userid;
@@ -429,6 +439,13 @@ FirefeedUI.prototype.renderProfile = function(uid) {
   // Update user info.
   self._firefeed.getUserInfo(uid, function(info) {
     info.id = uid;
+    console.log(info);
+    if(info.reputation === undefined) {
+        info.reputation = 0;
+    } else {
+      info.reputation = info.reputation;
+    }
+
     var content = Mustache.to_html($("#tmpl-profile-content").html(), info);
     $("#profile-content").html(content);
     var button = $('.btn-follow');

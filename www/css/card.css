@@ -12,8 +12,9 @@
   height: 364px;
   margin: 0px;
   border-style: solid;
-  border-width: 1px;
-  border-color: #dfdfdf;
+  border-radius: 4px;
+  border-width: 1.5px;
+  border-color: #CC9933;
   overflow:hidden;
   cursor:pointer;
 }
