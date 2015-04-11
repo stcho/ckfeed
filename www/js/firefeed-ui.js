@@ -35,13 +35,15 @@ FirefeedUI.prototype._setupHandlers = function() {
     e.preventDefault();
     self._go($(this).attr("href"));
   });
-  $(document).on("click", "a.spark-link", function(e) {
+  $(document).on("click", "#courses-link", function(e) {
     e.preventDefault();
-    self._go($(this).attr("href"));
+    // self._go($(this).attr("href"));
+    self._go("/?courses");
   });
-  $(document).on("click", "a.course-link", function(e) {
+  $(document).on("click", "#professors-link", function(e) {
     e.preventDefault();
-    self._go($(this).attr("href"));
+    // self._go($(this).attr("href"));
+    self._go("/?professors");
   });
   $(document).on("click", "#search-button", function(e) {
     e.preventDefault();
@@ -84,6 +86,12 @@ FirefeedUI.prototype._pageController = function(url) {
       } else {
         this._unload = this.renderSpark(value[1]);
       }
+      break;
+    case "courses":
+      this._unload = this.renderCourses();
+      break;
+    case "professors":
+      this._unload = this.renderProfessors();
       break;
     case "search":
       this._unload = this.renderSearch();
@@ -145,10 +153,11 @@ FirefeedUI.prototype._handleNewSpark = function(listId, limit, func) {
       
       var sparkEl = $(Mustache.to_html($("#tmpl-spark").html(), spark)).hide();
 
+      //Upvote Handler
       sparkEl.on("click", 'a.up-vote', function(e){e.preventDefault(); 
         var id = $(this).data('id');
         self._firefeed.setVote(spark.sparkId, spark.author, 1);
-        //refresh timeline *probably can create a new handlenewspark that will remove the excess ones*
+        //refresh timeline 
         $("#spark-timeline-list").empty(sparkEl);
         self._handleNewSpark(
           "spark-timeline-list", 10,
@@ -160,6 +169,7 @@ FirefeedUI.prototype._handleNewSpark = function(listId, limit, func) {
           self._firefeed.onNewSparkFor.bind(self._firefeed, uid)
         );
       });
+      //Downvote Handler
       sparkEl.on("click", 'a.down-vote', function(e){e.preventDefault(); 
         var id = $(this).data('id');
         self._firefeed.setVote(spark.sparkId, spark.author, -1);
@@ -207,15 +217,6 @@ FirefeedUI.prototype._editableHandler = function(id, value) {
   }
   return true;
 };
-
-// FirefeedUI.prototype._voteHandler = function(id, type) {
-//   if (id == "upvote-button") {
-//     alert("UPVOTE");
-//   }
-//   if (id == "downvote-button") {
-//     alert("DownVOTE");
-//   }
-// }
 
 FirefeedUI.prototype.onLoginStateChange = function(info) {
   this._spinner.stop();
@@ -292,6 +293,27 @@ FirefeedUI.prototype.renderHome = function(e) {
   return function() { self._firefeed.unload(); };
 };
 
+FirefeedUI.prototype.renderCourses = function() {
+  // var self = this;
+  // $("#header").html(Mustache.to_html($("#tmpl-page-header").html(), {user: self._loggedIn}));
+
+  // var content = Mustache.to_html($("#tmpl-courses-content").html());
+  // var body = Mustache.to_html($("#tmpl-content").html(), {
+  //   classes: "cf", content: content
+  // });
+  // $("#body").html(body);
+
+  // self._handleNewCourse(
+  //   "courses-list", 10, 
+  //   self._firefeed.onNewCourse.bind(self._firefeed)
+  // );
+
+};
+
+FirefeedUI.prototype.renderProfessors = function() {
+  alert("Profess Rendering Mayne");
+};
+
 FirefeedUI.prototype.renderSearch = function() {
   var self = this;
   $("#header").html(Mustache.to_html($("#tmpl-page-header").html(), {user: self._loggedIn}));
@@ -332,11 +354,7 @@ FirefeedUI.prototype.renderTimeline = function(info) {
   // Render user's location / bio on the timeline page 
   var stringForLocationBioQuery = "https://ckfeed.firebaseio.com/people/" + info.uid; 
   new Firebase(stringForLocationBioQuery).once('value', 
-    function _loadData(snap) {
-      // info.location = snap.val().location || "Your University...";
-      // info.major = info.maj`or.substr(0, 80) || "Your Major...";
-      // info.bio = snap.val().bio || "Your Bio...";
-  
+    function (snap) {
       if (snap.val().location === undefined) {
         document.getElementById("inputLocation").innerHTML = "Your University... Press Enter To Save";  
       }

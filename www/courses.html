@@ -19,9 +19,8 @@
   <body>
     <div id="wrapper">
 
-      <header id="header">
+      <header style="padding-bottom:28px" id="header">
       </header>
-
       
       <!-- NAVBAR Start -->
       <script id="tmpl-page-header" type="text/html">
@@ -42,10 +41,18 @@
       </script>
       <!-- NAVBAR End -->
 
-      <div id="body">
-      </div>
+<!--       <div id="body">
+      </div> -->
 
       <div style="text-align: center"><a href="#" class="btn default pushv4">Add New Course</a></div>
+
+              <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+            Launch demo modal
+          </button>
+
+          <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <p>"hello"</p>
+          </div>
 
       <div class="container" id="wrapper">
         <!-- <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 img-thumbs" ng-animate="'animate'">
@@ -56,6 +63,7 @@
             <div class="card-description">Click here to add new Courses</div>
           </div>
         </div> -->
+
         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 img-thumbs" ng-animate="'animate'">
           <div style="width: 225px; " class="card-background" ng-click="instantiateEvent(event)" data-toggle="modal" data-target="#createEventModal">
             <img src="img/asu_image.jpg" class="img-responsive card-img">
@@ -153,9 +161,11 @@
     <script src="https://cdn.firebase.com/js/client/1.1.2/firebase.js"></script>
 
     <!-- Finally, the Firefeed code -->
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script src="js/firefeed-search.js"></script>
     <script src="js/firefeed.js"></script>
     <script src="js/firefeed-ui.js"></script>
+    <script src="js/courses.js"></script>
 
 
     <!-- Google Analytics Tracking, change this for your website-->
