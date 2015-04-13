@@ -44,14 +44,87 @@
 <!--       <div id="body">
       </div> -->
 
-      <div style="text-align: center"><a href="#" class="btn default pushv4">Add New Course</a></div>
+      <div style="text-align: center"><a href="#" class="btn default pushv4" data-toggle="modal" data-target="#addNewCourseModal">Add New Course</a></div>
 
-              <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+          <!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
             Launch demo modal
-          </button>
+          </button> -->
 
-          <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <p>"hello"</p>
+          <!-- START Add New Courses Modal Template-->
+          <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addNewCourseModal" id="addNewCourseModal" aria-hidden="true">
+            <div class="modal-dialog modal-lg md-effect-1">
+
+              <div class="modal-content">
+
+                <div class="modal-dismiss">
+                  <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true" style="font-size: 40px; margin-right: 10px;" >&times;</span>
+                    <span class="sr-only">Close</span>
+                  </button>
+                </div>
+
+                <div class="row modalDetail" style="margin-right: 10px;">
+                  <form name="course" onsubmit="return createNewCourse()">
+                  <div class="col-xs-12 col-sm-6 col-md-6 detailLeft text-left">
+                    <div class="middle-allign" style="margin-left: 20px;">
+                      <h1 class="detailName">
+                        <input type="text" name="title" placeholder="Title">
+                      </h1>
+                      <div class="detailDescription">
+                        <textarea class="form-control" name="description" placeholder="Description"></textarea>
+                      </div>
+                      <table class="detailTable table">
+                        <tbody>
+                          <tr>
+                            <td class="bolder">University</td>
+                            <td>
+                              <input readonly class="form-control" type="text" name="university" placeholder="ASU">
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="bolder">Course Number</td>
+                            <td>
+                              <input class="form-control" type="text" name="courseNumber" placeholder="Course Number">
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="bolder">Course ID</td>
+                            <td>
+                              <input class="form-control" type="text" name="courseId" placeholder="Course ID">
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="bolder">Professors</td>
+                            <td>
+                              <input class="form-control" type="text" name="professors" placeholder="Professors">
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                        
+                      <div class="text-center missingFieldError" id="missingFieldError"></div>
+                      
+
+                      <div class="modalButtonGroup" style="margin-bottom:20px; text-align:center;">
+                        <button class="btn btn-warning" id="addNewCourseBtn">Create</button>
+                      </div>
+
+                      </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-6 detailRight">
+                        <img src="../img/asu_image.jpg" class="img-responsive" id="canvasCreateCourse">
+                          <span id="upload-image"><strong>Upload Image</strong></span>
+                          <span class="btn btn-default btn-file">
+                            <input type="file" accept="image/*" capture="camera" id="file-restaurant-create">
+                          </span>
+                          <div id="spinAdd"></div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+            </div>
           </div>
 
       <div class="container" id="wrapper">
@@ -149,6 +222,7 @@
     <script src="./libs/history.adapter.jquery.js"></script>
     <script src="./libs/history.js"></script>
     <script src="./libs/bind-polyfill.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <!--[if (gte IE 6)&(lte IE 8)]>
       <script src="//cdnjs.cloudflare.com/ajax/libs/selectivizr/1.0.2/selectivizr-min.js"></script>
     <![endif]-->
@@ -161,7 +235,6 @@
     <script src="https://cdn.firebase.com/js/client/1.1.2/firebase.js"></script>
 
     <!-- Finally, the Firefeed code -->
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script src="js/firefeed-search.js"></script>
     <script src="js/firefeed.js"></script>
     <script src="js/firefeed-ui.js"></script>

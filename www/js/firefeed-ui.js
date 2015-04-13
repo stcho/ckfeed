@@ -352,8 +352,8 @@ FirefeedUI.prototype.renderTimeline = function(info) {
   $("#header").html(Mustache.to_html($("#tmpl-page-header").html(), {user: self._loggedIn}));
 
   // Render user's location / bio on the timeline page 
-  var stringForLocationBioQuery = "https://ckfeed.firebaseio.com/people/" + info.uid; 
-  new Firebase(stringForLocationBioQuery).once('value', 
+  var stringForLocationAndBioQuery = "https://ckfeed.firebaseio.com/people/" + info.uid; 
+  new Firebase(stringForLocationAndBioQuery).once('value', 
     function (snap) {
       if (snap.val().location === undefined) {
         document.getElementById("inputLocation").innerHTML = "Your University... Press Enter To Save";  
