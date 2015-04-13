@@ -35,16 +35,16 @@ FirefeedUI.prototype._setupHandlers = function() {
     e.preventDefault();
     self._go($(this).attr("href"));
   });
-  $(document).on("click", "#courses-link", function(e) {
-    e.preventDefault();
-    // self._go($(this).attr("href"));
-    self._go("/?courses");
-  });
-  $(document).on("click", "#professors-link", function(e) {
-    e.preventDefault();
-    // self._go($(this).attr("href"));
-    self._go("/?professors");
-  });
+  // $(document).on("click", "#courses-link", function(e) {
+  //   e.preventDefault();
+  //   // self._go($(this).attr("href"));
+  //   self._go("/?courses");
+  // });
+  // $(document).on("click", "#professors-link", function(e) {
+  //   e.preventDefault();
+  //   // self._go($(this).attr("href"));
+  //   self._go("/?professors");
+  // });
   $(document).on("click", "#search-button", function(e) {
     e.preventDefault();
     self._go("/?search");
@@ -132,6 +132,18 @@ FirefeedUI.prototype._postHandler = function(e) {
       sparkButton.click(self._postHandler.bind(self));
     });
   });
+};
+
+FirefeedUI.prototype._handleNewCourse = function(listId,limit, func) {
+  var self = this;
+  func(
+    limit,
+    function() {
+      alert("Whuuut");
+    }, function() {
+      alert("Error in _handleNewCourses()")
+    }
+  );
 };
 
 FirefeedUI.prototype._handleNewSpark = function(listId, limit, func) {
@@ -346,8 +358,7 @@ FirefeedUI.prototype.renderSearch = function() {
 };
 
 FirefeedUI.prototype.renderTimeline = function(info) {
-  // console.log("values:", value[1]);
-  // console.log("info:", info); --> Object
+  console.log("this:", this);
   var self = this;
   $("#header").html(Mustache.to_html($("#tmpl-page-header").html(), {user: self._loggedIn}));
 

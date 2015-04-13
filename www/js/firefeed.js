@@ -73,6 +73,15 @@ Firefeed.prototype = {
            "/picture/?type=" + (large ? "large" : "square") +
            "&return_ssl_resources=1";
   },
+  _onNewCreationOfCourse: function(coursesRef, onComplete) {
+    var self = this;
+
+    // We listen for new children on the feed.
+    var handler = coursesRef.on("child_added", function(snap) {
+      alert("Wolf");
+      console.log(snap);
+    });
+  },
   _onNewSparkForFeed: function(feed, onComplete, onOverflow) {
     var self = this;
 
@@ -199,7 +208,6 @@ Firefeed.prototype.onLogin = function(user) {
   this._name = user.first_name;
 
   var peopleRef = self._firebase.child("people").child(this._uid);
-  // THE PROBMLEM IS peopleRef.once IS GETTING SKIPPED
   peopleRef.once("value", function(peopleSnap) {
     var info = {};
     var val = peopleSnap.val();
@@ -645,6 +653,20 @@ Firefeed.prototype.onNewSpark = function(totalCount, onComplete, onOverflow) {
   var feed = this._mainUser.child("feed").limit(totalCount || 100);
   this._onNewSparkForFeed(feed, onComplete, onOverflow);
 };
+
+
+// Register a callback to be notified whenever a new course child is added
+// Firefeed.prototype.onNewCourse = function(totalCount, onComplete, onOverflow) {
+//   this._validateCallback(onComplete);
+//   this._validateCallback(onOverflow);
+
+//   var coursesRef = self._firebase.child("courses");
+  
+//   // var peopleRef = self._firebase.child("courses").child(this._uid);/
+//   // var feed = this._mainUser.child("feed").limit(totalCount || 100);
+
+//   this._onNewCreationOfCourse(coursesRef, onComplete);
+// };
 
 
 /**
