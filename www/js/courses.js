@@ -1,9 +1,37 @@
-$('#myModal').on('shown.bs.modal', function () {
-  $('#myInput').focus()
-})
+
+//Course Ref in Firebase
+var coursesRef = new Firebase("https://ckfeed.firebaseio.com/courses");
+// We listen for new children on the courses.
+coursesRef.on("child_added", function(snap) {
+  snap.fbCourseId = snap.name(); //the id given upon creation by Firebase
+  snap.title = snap.val().title;
+  snap.description = snap.val().description;
+  //snap.courseId = snap.val().courseId;
+  //snap.courseNumber = snap.val().courseNumber;
+
+	var courseEl = $(Mustache.to_html($("#tmpl-course").html(), snap));
+	$("#courses-list").prepend(courseEl);
+
+});
+
+function _coursePageController (courseId) {
+	//get valur of this specific course object that has been clicked
+	coursesRef.child(courseId).once("value", function(snap) {
+		
+		console.log(snap.val());
+
+		//use mustache to get html tmpl and submit content into it while clearing our all others
+
+		var content = Mustache.to_html($("#tmpl-course-content").html(), snap.val());
+		var body = Mustache.to_html($("#tmpl-content").html(), {
+      classes: "cf", content: content
+    });
+		$("#body").html(body);
+	});	
+}
+
 
 function createNewCourse() {
-	
 	var courseRef = new Firebase('https://ckfeed.firebaseio.com/courses/');
 
 // ERROR HANDLING
@@ -26,7 +54,6 @@ function createNewCourse() {
 	// 	alert("numver?" + document.course.description.value + "Woop");
 	// }
 
-
 	//form_name.element.its_value
 	courseRef.push({
 		'title': document.course.title.value,
@@ -43,29 +70,4 @@ function createNewCourse() {
 	  }
 	});
 
-	// var person = {
- //    firstName: "Christophe",
- //    lastName: "Coenraets",
- //    blogURL: "http://coenraets.org"
-	// };
-	// var template = "<h1>{{firstName}} {{lastName}}</h1>Blog: {{blogURL}}";
-	// var html = Mustache.to_html(template, person);
-	// $('#sampleArea').html(html);
 }
-
-
-//Generate courses list on courses.html
-var coursesRef = new Firebase("https://ckfeed.firebaseio.com/courses");
-// We listen for new children on the courses.
-var handler = coursesRef.on("child_added", function(snap) {
-  snap.name = snap.name(); 
-  snap.title = snap.val().title;
-  snap.description = snap.val().description;
-  //snap.courseId = snap.val().courseId;
-  //snap.courseNumber = snap.val().courseNumber;
-
-	var courseEl = $(Mustache.to_html($("#tmpl-course").html(), snap));
-	$("#courses-list").prepend(courseEl);
-
-});
-
