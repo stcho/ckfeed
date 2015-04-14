@@ -6,8 +6,9 @@ coursesRef.on("child_added", function(snap) {
   snap.fbCourseId = snap.name(); //the id given upon creation by Firebase
   snap.title = snap.val().title;
   snap.description = snap.val().description;
-  //snap.courseId = snap.val().courseId;
-  //snap.courseNumber = snap.val().courseNumber;
+  snap.image = snap.val().image;
+  snap.courseId = snap.val().courseId;
+  snap.courseNumber = snap.val().courseNumber;
 
 	var courseEl = $(Mustache.to_html($("#tmpl-course").html(), snap));
 	$("#courses-list").prepend(courseEl);
@@ -27,6 +28,9 @@ function _coursePageController (courseId) {
       classes: "cf", content: content
     });
 		$("#body").html(body);
+
+		$("#course-page-content").html(null);
+
 	});	
 }
 
@@ -59,6 +63,7 @@ function createNewCourse() {
 		'title': document.course.title.value,
 		'description': document.course.description.value,
 		'university': "ASU",
+		'image': "http://www.sarvgyan.com/hc/wp-content/uploads/2014/06/cse-image.jpg",
 		'professors': document.course.professors.value,
 		'courseId': document.course.courseId.value,
 		'courseNumber': document.course.courseNumber.value
@@ -69,5 +74,7 @@ function createNewCourse() {
 	    alert("Data saved successfully.");
 	  }
 	});
+
+	//reload page otherwise form still in url
 
 }

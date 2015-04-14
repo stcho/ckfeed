@@ -46,111 +46,111 @@
       <!-- I want to make this look a lot like the profile page -->
       <script id="tmpl-course-content" type="text/html">
         <div class="img avatar big pushv2 center">
-          <img src="http://www.sarvgyan.com/hc/wp-content/uploads/2014/06/cse-image.jpg" alt="{{name}}" />
+          <img src="{{image}}" alt="{{name}}" />
         </div>
         
-        <h2 style="text-align:center;">{{title}}</h2>
+        <h2 style="text-align:center;">{{courseId}}: {{title}}</h2>
         <p style="text-align:center;">{{description}}</p>
-        <p style="text-align:center;">Course ID: {{courseId}}</p>
         <p style="text-align:center;">Course Number: {{courseNumber}}</p>
         <p style="text-align:center;">Professors: {{professors}}</p>
       </script>
 
-      <div style="text-align: center"><a href="#" class="btn default pushv4" data-toggle="modal" data-target="#addNewCourseModal">Add New Course</a></div>
-
-      <!-- START Add New Courses Modal Template-->
-      <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addNewCourseModal" id="addNewCourseModal" aria-hidden="true">
-        <div class="modal-dialog modal-lg md-effect-1">
-
-          <div class="modal-content">
-
-            <div class="modal-dismiss">
-              <button type="button" class="close" data-dismiss="modal">
-                <span aria-hidden="true" style="font-size: 40px; margin-right: 10px;" >&times;</span>
-                <span class="sr-only">Close</span>
-              </button>
-            </div>
-
-            <div class="row modalDetail" style="margin-right: 10px;">
-              <form name="course" onsubmit="return createNewCourse()">
-              <div class="col-xs-12 col-sm-6 col-md-6 detailLeft text-left">
-                <div class="middle-allign" style="margin-left: 20px;">
-                  <h1 class="detailName">
-                    <input type="text" name="title" placeholder="Title">
-                  </h1>
-                  <div class="detailDescription">
-                    <textarea class="form-control" name="description" placeholder="Description"></textarea>
-                  </div>
-                  <table class="detailTable table">
-                    <tbody>
-                      <tr>
-                        <td class="bolder">University</td>
-                        <td>
-                          <input readonly class="form-control" type="text" name="university" placeholder="ASU">
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="bolder">Course Number</td>
-                        <td>
-                          <input class="form-control" type="text" name="courseNumber" placeholder="Course Number">
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="bolder">Course ID</td>
-                        <td>
-                          <input class="form-control" type="text" name="courseId" placeholder="Course ID">
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="bolder">Professors</td>
-                        <td>
-                          <input class="form-control" type="text" name="professors" placeholder="Professors">
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+      <div id="course-page-content">
+        <div style="text-align: center"><a href="#" class="btn default pushv4" data-toggle="modal" data-target="#addNewCourseModal">Add New Course</a></div>
+      
+        <!-- START Add New Courses Modal Template-->
+        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addNewCourseModal" id="addNewCourseModal" aria-hidden="true">
+          <div class="modal-dialog modal-lg md-effect-1">
+  
+            <div class="modal-content">
+  
+              <div class="modal-dismiss">
+                <button type="button" class="close" data-dismiss="modal">
+                  <span aria-hidden="true" style="font-size: 40px; margin-right: 10px;" >&times;</span>
+                  <span class="sr-only">Close</span>
+                </button>
+              </div>
+  
+              <div class="row modalDetail" style="margin-right: 10px;">
+                <form name="course" onsubmit="return createNewCourse()">
+                <div class="col-xs-12 col-sm-6 col-md-6 detailLeft text-left">
+                  <div class="middle-allign" style="margin-left: 20px;">
+                    <input class="detailName form-control" style="margin-bottom:10px;" type="text" name="title" placeholder="Title">
+                    <div class="detailDescription">
+                      <textarea class="form-control" name="description" placeholder="Description"></textarea>
+                    </div>
+                    <table class="detailTable table">
+                      <tbody>
+                        <tr>
+                          <td class="bolder">University</td>
+                          <td>
+                            <input readonly class="form-control" type="text" name="university" placeholder="ASU">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="bolder">Course Number</td>
+                          <td>
+                            <input class="form-control" type="text" name="courseNumber" placeholder="Course Number">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="bolder">Course ID</td>
+                          <td>
+                            <input class="form-control" type="text" name="courseId" placeholder="Course ID">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="bolder">Professors</td>
+                          <td>
+                            <input class="form-control" type="text" name="professors" placeholder="Professors">
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                      
+                    <div class="text-center missingFieldError" id="missingFieldError"></div>
                     
-                  <div class="text-center missingFieldError" id="missingFieldError"></div>
-                  
-
-                  <div class="modalButtonGroup" style="margin-bottom:20px; text-align:center;">
-                    <button class="btn btn-warning" id="addNewCourseBtn">Create</button>
+  
+                    <div class="modalButtonGroup" style="margin-bottom:20px; text-align:center;">
+                      <button class="btn btn-warning" id="addNewCourseBtn">Create</button>
+                    </div>
+  
+                    </div>
                   </div>
-
+  
+                  <div class="col-xs-12 col-sm-6 col-md-6 detailRight">
+                      <img src="http://www.sarvgyan.com/hc/wp-content/uploads/2014/06/cse-image.jpg" class="img-responsive" id="canvasCreateCourse">
+                        <br>
+                        <span style="font-size:20px;">Upload Image</span>
+                        <span class="btn btn-default btn-file">
+                          <input type="file" accept="image/*" capture="camera" id="file-restaurant-create">
+                        </span>
+                        <div id="spinAdd"></div>
                   </div>
-                </div>
-
-                <div class="col-xs-12 col-sm-6 col-md-6 detailRight">
-                    <img src="../img/asu_image.jpg" class="img-responsive" id="canvasCreateCourse">
-                      <br>
-                      <span id="upload-image">Upload Image</span>
-                      <span class="btn btn-default btn-file">
-                        <input type="file" accept="image/*" capture="camera" id="file-restaurant-create">
-                      </span>
-                      <div id="spinAdd"></div>
-                </div>
-              </form>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="container">
-        <ul id="courses-list"></ul>
-        <!-- Template for course list element that get prepended into the courses-list -->
-        <script id="tmpl-course" type="text/html">
-          <li onclick="_coursePageController('{{fbCourseId}}')" id="course-{{fbCourseId}}">
-            <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 img-thumbs" ng-animate="'animate'">
-              <div style="width: 225px; " class="card-background" data-toggle="modal" data-target="#instantiateCourseModal">
-                <img src="img/asu_image.jpg" class="img-responsive card-img">
-                <img style="margin:1px;" src="http://www.sarvgyan.com/hc/wp-content/uploads/2014/06/cse-image.jpg" width="250" height="250">
-                <div class="card-header text-center">{{title}}</div>
-                <div class="card-description">{{description}}</div>
+                </form>
               </div>
             </div>
-          </li>
-        </script>
+  
+          </div>
+        </div>
+    
+        <div class="container">
+          <ul id="course-feed-list"></ul>
+          <ul id="courses-list"></ul>
+          <!-- Template for course list element that get prepended into the courses-list -->
+          <script id="tmpl-course" type="text/html">
+            <li onclick="_coursePageController('{{fbCourseId}}')" id="course-{{fbCourseId}}">
+              <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 img-thumbs" ng-animate="'animate'">
+                <div style="width: 225px; " class="card-background" data-toggle="modal" data-target="#instantiateCourseModal">
+                  <img src="img/asu_image.jpg" class="img-responsive card-img">
+                  <img style="margin:1px;" src="{{image}}" width="250" height="250">
+                  <div class="card-header text-center">{{courseId}}</div>
+                  <div class="card-description"><strong>{{title}}</strong> - {{description}}</div>
+                </div>
+              </div>
+            </li>
+          </script>
+        </div>
       </div>
 
       <script id="tmpl-content" type="text/html">

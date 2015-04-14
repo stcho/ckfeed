@@ -502,39 +502,54 @@ Firefeed.prototype.post = function(content, onComplete) {
 
 Firefeed.prototype.setVote = function(sparkId, userId, newvote) {
   var self = this;
-  console.log("self:", self);console.log("sparkID:", sparkId);console.log("userID:", userId);console.log("newvote:", newvote);
+  // console.log("self:", self);console.log("sparkID:", sparkId);console.log("userID:", userId);console.log("newvote:", newvote);
+
+
+//get this specific spark using the sparkId
+      //check if there is a "vote" object associated with this user and the spark
+      //  if return a value, transform arrows to faded out arrows that will undo if opposite vote is pressed or alert that the user has already voted if they click the same type of vote 
+      //  if return null, create a "vote" object associated with this user and the spark and add the "newvote" amount to the spark.voteSum
+
+
+
   // Query to see if spark-vote already exits with this specific sparkId and userId ("sparkid" + "-" + "userId")
-  // if not create new spark-vote 
-  // var newVoteId = sparkId + "-" + userId;
-  // self._firebase.child("spark-votes").child(newVoteId).once('value', function(snap){
-    // if (snap.val() === null) {
-    //   self._firebase.child("spark-votes/"+newVoteId).set({
-    //     vote: newvote //vote: The value of 1 for upvote, -1 for downvote.
-    //   });
-    // } else {
-    //   console.log("gotem");
-    // }
-  // });
-//find voteSum
+  var newVoteId = sparkId + "-" + userId;
+  self._firebase.child("spark-votes").child(newVoteId).once('value', function(snap){
+    //If return null, create a "vote" object associated with this user and the spark 
+    //and adding the "newvote" amount to the spark.voteSum and people.reputation
+    if (snap.val() === null) {
+      self._firebase.child("spark-votes/"+newVoteId).set({
+        vote: newvote //vote: The value of 1 for upvote, -1 for downvote.
+      });
 
-  self._firebase.child("sparks").child(sparkId).once('value', function(snap){
-    if (snap.val().voteSum === undefined) {
-      self._firebase.child("sparks").child(sparkId+"/voteSum").set(newvote);
-      self._firebase.child("people").child(userId+"/reputation").set(newvote);
-    } else {
-      var voteSum = snap.val().voteSum + newvote;
-      self._firebase.child("sparks").child(sparkId+"/voteSum").set(voteSum);
-
-      self._firebase.child("people").child(userId).once('value', function(pSnap){
-        if (pSnap.val().reputation === undefined) {
+      self._firebase.child("sparks").child(sparkId).once('value', function(snap){
+        if (snap.val().voteSum === undefined) {
+          self._firebase.child("sparks").child(sparkId+"/voteSum").set(newvote);
+          document.getElementById("vote-sum").innerHTML = newVote;
           self._firebase.child("people").child(userId+"/reputation").set(newvote);
         } else {
-          var reputation = pSnap.val().reputation + newvote;
-          self._firebase.child("people").child(userId+"/reputation").set(reputation);
+          var voteSum = snap.val().voteSum + newvote;
+          self._firebase.child("sparks").child(sparkId+"/voteSum").set(voteSum);
+          //change this spark's number in the html
+          document.getElementById("vote-sum").innerHTML = voteSum;
+
+          self._firebase.child("people").child(userId).once('value', function(pSnap){
+            if (pSnap.val().reputation === undefined) {
+              self._firebase.child("people").child(userId+"/reputation").set(newvote);
+            } else {
+              var reputation = pSnap.val().reputation + newvote;
+              self._firebase.child("people").child(userId+"/reputation").set(reputation);
+            }
+          }); 
         }
-      }); 
+      });
+      alert("A New Vote");
+      // location.reload();
+    } else {
+      alert("You have already voted for this post!");
     }
   });
+
 };
 
 
@@ -651,6 +666,18 @@ Firefeed.prototype.onNewSpark = function(totalCount, onComplete, onOverflow) {
   this._validateCallback(onOverflow);
 
   var feed = this._mainUser.child("feed").limit(totalCount || 100);
+
+  this._onNewSparkForFeed(feed, onComplete, onOverflow);
+};
+
+Firefeed.prototype.onNewVote = function(totalCount, onComplete, onOverflow) {
+  this._validateCallback(onComplete);
+  this._validateCallback(onOverflow);
+
+  var feed = this._mainUser.child("feed").limit(totalCount || 100);
+  console.log("ONNEWVOTE:", feed);
+  //I'm not garbage collecting but if I was I would get it
+
   this._onNewSparkForFeed(feed, onComplete, onOverflow);
 };
 
@@ -661,7 +688,7 @@ Firefeed.prototype.onNewSpark = function(totalCount, onComplete, onOverflow) {
 //   this._validateCallback(onOverflow);
 
 //   var coursesRef = self._firebase.child("courses");
-  
+
 //   // var peopleRef = self._firebase.child("courses").child(this._uid);/
 //   // var feed = this._mainUser.child("feed").limit(totalCount || 100);
 

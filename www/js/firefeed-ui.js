@@ -164,38 +164,43 @@ FirefeedUI.prototype._handleNewSpark = function(listId, limit, func) {
       );
       
       var sparkEl = $(Mustache.to_html($("#tmpl-spark").html(), spark)).hide();
+      
 
       //Upvote Handler
       sparkEl.on("click", 'a.up-vote', function(e){e.preventDefault(); 
+        alert("up-vote");
         var id = $(this).data('id');
         self._firefeed.setVote(spark.sparkId, spark.author, 1);
         //refresh timeline 
-        $("#spark-timeline-list").empty(sparkEl);
-        self._handleNewSpark(
-          "spark-timeline-list", 10,
-          self._firefeed.onNewSpark.bind(self._firefeed)
-        );
+        
+        // $("#spark-timeline-list").empty(sparkEl);  
+        // self._handleNewSpark(
+        //   "spark-timeline-list", 10,
+        //   self._firefeed.onNewVote.bind(self._firefeed)
+        // );
+        
         // $("#spark-profile-list").empty(sparkEl);
-        self._handleNewSpark(
-          "spark-profile-list", 5,
-          self._firefeed.onNewSparkFor.bind(self._firefeed, uid)
-        );
+        // self._handleNewSpark(
+        //   "spark-profile-list", 5,
+        //   self._firefeed.onNewSparkFor.bind(self._firefeed, uid)
+        // );
       });
       //Downvote Handler
       sparkEl.on("click", 'a.down-vote', function(e){e.preventDefault(); 
+        alert("down-vote");
         var id = $(this).data('id');
         self._firefeed.setVote(spark.sparkId, spark.author, -1);
         //refresh timeline
-        $("#spark-timeline-list").empty(sparkEl);
-        self._handleNewSpark(
-          "spark-timeline-list", 10,
-          self._firefeed.onNewSpark.bind(self._firefeed)
-        );
-        // $("#spark-profile-list").empty(sparkEl);
-        self._handleNewSpark(
-          "spark-profile-list", 5,
-          self._firefeed.onNewSparkFor.bind(self._firefeed, uid)
-        );
+        // $("#spark-timeline-list").empty(sparkEl);
+        // self._handleNewSpark(
+        //   "spark-timeline-list", 10,
+        //   self._firefeed.onNewVote.bind(self._firefeed)
+        // );
+        // // $("#spark-profile-list").empty(sparkEl);
+        // self._handleNewSpark(
+        //   "spark-profile-list", 5,
+        //   self._firefeed.onNewSparkFor.bind(self._firefeed, uid)
+        // );
       });
       
       $("#" + listId).prepend(sparkEl);
