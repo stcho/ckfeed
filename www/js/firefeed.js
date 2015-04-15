@@ -89,10 +89,11 @@ Firefeed.prototype = {
     var handler = feed.on("child_added", function(snap) {
       // When a new spark is added, fetch the content from the master spark
       // list since feeds only contain references in the form of spark IDs.
-      var sparkID = snap.name();
+      var sparkID = snap.name(); 
       var sparkRef = self._firebase.child("sparks").child(sparkID);
       var handler = sparkRef.on("value", function(sparkSnap) {
         var ret = sparkSnap.val();
+        console.log("Ret:", ret);
         if (ret !== null) {
           ret.pic = self._getPicURL(ret.author);
           onComplete(sparkSnap.name(), ret);
@@ -500,7 +501,8 @@ Firefeed.prototype.post = function(content, onComplete) {
   });
 };
 
-Firefeed.prototype.setVote = function(sparkId, userId, newvote) {
+//when we call onComplete after setVote is done
+Firefeed.prototype.setVote = function(sparkId, userId, newvote, onComplete, onAlreadyVoted) {
   var self = this;
   // console.log("self:", self);console.log("sparkID:", sparkId);console.log("userID:", userId);console.log("newvote:", newvote);
 
@@ -509,8 +511,6 @@ Firefeed.prototype.setVote = function(sparkId, userId, newvote) {
       //check if there is a "vote" object associated with this user and the spark
       //  if return a value, transform arrows to faded out arrows that will undo if opposite vote is pressed or alert that the user has already voted if they click the same type of vote 
       //  if return null, create a "vote" object associated with this user and the spark and add the "newvote" amount to the spark.voteSum
-
-
 
   // Query to see if spark-vote already exits with this specific sparkId and userId ("sparkid" + "-" + "userId")
   var newVoteId = sparkId + "-" + userId;
@@ -525,14 +525,11 @@ Firefeed.prototype.setVote = function(sparkId, userId, newvote) {
       self._firebase.child("sparks").child(sparkId).once('value', function(snap){
         if (snap.val().voteSum === undefined) {
           self._firebase.child("sparks").child(sparkId+"/voteSum").set(newvote);
-          document.getElementById("vote-sum").innerHTML = newVote;
           self._firebase.child("people").child(userId+"/reputation").set(newvote);
+          onComplete(newvote);
         } else {
           var voteSum = snap.val().voteSum + newvote;
           self._firebase.child("sparks").child(sparkId+"/voteSum").set(voteSum);
-          //change this spark's number in the html
-          document.getElementById("vote-sum").innerHTML = voteSum;
-
           self._firebase.child("people").child(userId).once('value', function(pSnap){
             if (pSnap.val().reputation === undefined) {
               self._firebase.child("people").child(userId+"/reputation").set(newvote);
@@ -540,13 +537,13 @@ Firefeed.prototype.setVote = function(sparkId, userId, newvote) {
               var reputation = pSnap.val().reputation + newvote;
               self._firebase.child("people").child(userId+"/reputation").set(reputation);
             }
-          }); 
+          });
+          onComplete(voteSum); 
         }
       });
-      alert("A New Vote");
-      // location.reload();
     } else {
-      alert("You have already voted for this post!");
+      //if(value is different than previous call update voteSum in firebase and call onComplete )
+      onAlreadyVoted();
     }
   });
 
@@ -666,20 +663,23 @@ Firefeed.prototype.onNewSpark = function(totalCount, onComplete, onOverflow) {
   this._validateCallback(onOverflow);
 
   var feed = this._mainUser.child("feed").limit(totalCount || 100);
+  // feed.once("value", function(snap){
+  //   console.log(snap.val());
+  // });
 
   this._onNewSparkForFeed(feed, onComplete, onOverflow);
 };
 
-Firefeed.prototype.onNewVote = function(totalCount, onComplete, onOverflow) {
-  this._validateCallback(onComplete);
-  this._validateCallback(onOverflow);
+// Firefeed.prototype.onNewVote = function(totalCount, onComplete, onOverflow) {
+//   this._validateCallback(onComplete);
+//   this._validateCallback(onOverflow);
 
-  var feed = this._mainUser.child("feed").limit(totalCount || 100);
-  console.log("ONNEWVOTE:", feed);
-  //I'm not garbage collecting but if I was I would get it
+//   var feed = this._mainUser.child("feed").limit(totalCount || 100);
+//   console.log("ONNEWVOTE:", feed);
+//   //I'm not garbage collecting but if I was I would get it
 
-  this._onNewSparkForFeed(feed, onComplete, onOverflow);
-};
+//   this._onNewSparkForFeed(feed, onComplete, onOverflow);
+// };
 
 
 // Register a callback to be notified whenever a new course child is added
